@@ -13,6 +13,15 @@
     --second-bg-color: #131313;
     --text-color: #fff;
     --main-color: #0096FF;
+    --transition: all 0.3s ease;
+}
+
+/* Light theme variables */
+[data-theme="light"] {
+    --bg-color: #f0f0f0;
+    --second-bg-color: #ffffff;
+    --text-color: #333;
+    --main-color: #0066cc;
 }
 
 html{
@@ -50,14 +59,26 @@ body{
     left: 0;
     width: 100%;
     padding: 4rem 12% 4rem;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    z-index: 5;
+    background: transparent;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 5;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .logo{
+    position: relative;
+    z-index: 2;
     font-size: 3rem;
     color: var(--text-color);
     font-weight: 800;
@@ -69,6 +90,10 @@ body{
 }
 .logo span{
     text-shadow: 0 0 25px var(--main-color);
+}
+.navbar {
+    position: relative;
+    z-index: 2;
 }
 .navbar a{
     font-size: 1.8rem;
@@ -83,7 +108,9 @@ body{
     color: var(--main-color);
     border-bottom: 3px solid var(--main-color);
 }
-#menu-icon{
+#menu-icon {
+    position: relative;
+    z-index: 2;
     font-size: 3.6rem;
     color: var(--main-color);
     display: none;
@@ -525,23 +552,23 @@ span{
 
 .contact{
     background-color: var(--bg-color);
+    padding: 10rem 12% 10rem;
 }
 .contact h2{
     margin-bottom: 3rem;
     color: #fff;
+    text-align: center;
 }
 .contact form{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3rem;
-    margin: 5rem auto;
+    max-width: 70rem;
+    margin: 0 auto;
     text-align: center;
 }
 .contact form .input-box{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
+    gap: 2rem;
 }
 .contact form .input-box input,
 .contact form textarea{
@@ -549,14 +576,74 @@ span{
     padding: 2.5rem;
     font-size: 1.8rem;
     color: var(--text-color);
-    background-color: var(--bg-color);
+    background-color: var(--second-bg-color);
     border-radius: 2rem;
     border: 2px solid var(--main-color);
     margin: 1.5rem 0;
     resize: none;
 }
+.contact form .input-box input {
+    width: 48%;
+}
+.contact form textarea {
+    width: 100%;
+}
 .contact form .btn{
     margin-top: 2rem;
+    cursor: pointer;
+}
+
+.form-status {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 500;
+  max-width: 50rem;
+  display: none;
+}
+
+.form-status.success {
+  display: block;
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 2px solid #4caf50;
+}
+
+.form-status.error {
+  display: block;
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: 2px solid #f44336;
+}
+
+.contact form input:focus,
+.contact form textarea:focus {
+  border-color: #0ef;
+  box-shadow: 0 0 10px rgba(0, 238, 255, 0.3);
+}
+
+.contact form input:invalid,
+.contact form textarea:invalid {
+  border-color: #ff4d4d;
+}
+
+.contact form button[type="submit"] {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact form button[type="submit"]:hover {
+  background: #0ef;
+  color: #1f242d;
+  transform: scale(1.05);
+}
+
+.contact form button[type="submit"]:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* ******************Footer Section********************* */
@@ -716,4 +803,334 @@ span{
         text-align: center;
         margin: 2rem 0;
     }
+}
+
+/* Loading Animation */
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.loader-wrapper.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--main-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    background: var(--second-bg-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle i {
+    font-size: 24px;
+    color: var(--main-color);
+}
+
+.theme-toggle .bx-sun {
+    display: none;
+}
+
+[data-theme="light"] .theme-toggle .bx-sun {
+    display: block;
+}
+
+[data-theme="light"] .theme-toggle .bx-moon {
+    display: none;
+}
+
+/* Scroll to Top Button */
+.scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--main-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    z-index: 1000;
+}
+
+.scroll-top.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px var(--main-color);
+}
+
+/* Skills Section */
+.skills {
+    background: var(--second-bg-color);
+    padding: 100px 0;
+}
+
+.skills-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.skill-box {
+    background: var(--bg-color);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.skill-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px var(--main-color);
+}
+
+.skill-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.skill-bar {
+    width: 100%;
+    height: 10px;
+    background: var(--second-bg-color);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: var(--main-color);
+    border-radius: 5px;
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+/* Projects Section */
+.projects {
+    background: var(--bg-color);
+    padding: 100px 0;
+}
+
+.project-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.filter-btn {
+    padding: 0.8rem 1.5rem;
+    background: var(--second-bg-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--main-color);
+}
+
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-item {
+    background: var(--second-bg-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.project-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px var(--main-color);
+}
+
+.project-img {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.project-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.8rem;
+    transition: 0.3s ease;
+}
+
+.project-item:hover .project-img img {
+    transform: scale(1.1);
+}
+
+.project-info {
+    padding: 1.5rem;
+}
+
+.project-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.project-info p {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.project-links .btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.4rem;
+}
+
+/* Typing Animation for Contact */
+.typing-animation {
+    text-align: center;
+    margin-bottom: 2rem;
+    min-height: 2em;
+}
+
+.typing-text {
+    font-size: 1.8rem;
+    color: var(--main-color);
+}
+
+/* AOS Animation Customization */
+[data-aos] {
+    pointer-events: none;
+}
+
+[data-aos].aos-animate {
+    pointer-events: auto;
+}
+
+/* Responsive Design Updates */
+@media (max-width: 768px) {
+    .skills-container,
+    .projects-container {
+        grid-template-columns: 1fr;
+    }
+
+    .project-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .contact form .input-box {
+        flex-direction: column;
+    }
+    
+    .contact form .input-box input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 426px) {
+    .contact form {
+        max-width: 100%;
+        padding: 0 2rem;
+    }
+    
+    .contact form .input-box input,
+    .contact form textarea {
+        padding: 2rem;
+        font-size: 1.6rem;
+    }
+}
+
+/* Smoke Canvas */
+#smokeCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Add smoke particle styles */
+.smoke-particle {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: screen;
+}
+
+.project-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--main-color), #0066cc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-radius: 0.8rem;
+    text-align: center;
 }

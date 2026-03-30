@@ -13,6 +13,9 @@
     --second-bg-color: #131313;
     --text-color: #fff;
     --main-color: #0096FF;
+    --header-glass-bg: rgba(0, 0, 0, 0.3);
+    --header-glass-border: rgba(255, 255, 255, 0.1);
+    --btn-text-color: #080808;
     --transition: all 0.3s ease;
 }
 
@@ -22,6 +25,9 @@
     --second-bg-color: #ffffff;
     --text-color: #333;
     --main-color: #0066cc;
+    --header-glass-bg: rgba(255, 255, 255, 0.75);
+    --header-glass-border: rgba(0, 0, 0, 0.12);
+    --btn-text-color: #ffffff;
 }
 
 html{
@@ -34,7 +40,6 @@ body{
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background: #000;
 }
 
 
@@ -69,11 +74,11 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--header-glass-bg);
     backdrop-filter: blur(10px);
     padding: 1rem 2rem;
     border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--header-glass-border);
 }
 
 .logo{
@@ -158,8 +163,12 @@ span{
 }
 .home-img img{
     position: relative;
-    top: 3rem;
-    width: 28vw;
+    top: 0;
+    width: min(28vw, 360px);
+    height: min(28vw, 360px);
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
     border-radius: 50%;
     box-shadow: 0 0 25px var(--main-color);
     cursor: pointer;
@@ -203,7 +212,7 @@ span{
     box-shadow: 0 0 25px var(--main-color);
     border-radius: 4rem;
     font-size: 1.6rem;
-    color: #080808;
+    color: var(--btn-text-color);
     border: 2px solid transparent;
     letter-spacing: 0.1rem;
     font-weight: 600;
@@ -220,7 +229,7 @@ span{
     gap: 1.5rem;
 }
 .btn-group a:nth-of-type(2){
-    background-color: #080808;
+    background-color: var(--second-bg-color);
     color: var(--main-color);
     border: 2px solid var(--main-color);
     box-shadow: 0 0 25px transparent;
@@ -228,7 +237,7 @@ span{
 .btn-group a:nth-of-type(2):hover{
     box-shadow: 0 0 25px var(--main-color);
     background-color: var(--main-color);
-    color: #080808;
+    color: var(--btn-text-color);
 }
 .text-animation{
     font-size: 34px;
@@ -408,7 +417,7 @@ span{
 .timeline-date{
     font-size: 20px;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-color);
     margin: 6px 0 15px;
 }
 .timeline-content{
@@ -426,12 +435,12 @@ span{
 }
 .timeline-content h3{
     font-size: 20px;
-    color: #fff;
+    color: var(--text-color);
     margin: 0 0 10px;
     font-weight: 500;
 }
 .timeline-content p{
-    color: #fff;
+    color: var(--text-color);
     font-size: 13px;
     font-weight: 300;
     line-height: 17px;
@@ -441,11 +450,11 @@ span{
 
 .services{
     background: var(--bg-color);
-    color: #080808;
+    color: var(--text-color);
 }
 .services h2{
     margin-bottom: 5rem;
-    color: #fff;
+    color: var(--text-color);
 }
 .services-container{
     display: grid;
@@ -462,8 +471,8 @@ span{
     transition: 0.4s ease-in-out;
 }
 .service-box:hover{
-    background: #fff;
-    color: #131313;
+    background: var(--second-bg-color);
+    color: var(--text-color);
     border: 5px solid var(--main-color);
     transform: scale(1.03);
 }
@@ -518,7 +527,7 @@ span{
 .testimonial-item{
     min-height: 490px;
     max-width: 450px;
-    background: #080808;
+    background: var(--bg-color);
     border: 3px solid rgba(238, 238, 238, 0.3);
     border-radius: 2rem;
     margin: 0 2rem;
@@ -529,7 +538,7 @@ span{
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
-    color: #fff;
+    color: var(--text-color);
     transition: 0.4s ease-in-out;
 }
 .testimonial-item:hover{
@@ -556,7 +565,7 @@ span{
 }
 .contact h2{
     margin-bottom: 3rem;
-    color: #fff;
+    color: var(--text-color);
     text-align: center;
 }
 .contact form{
@@ -620,8 +629,8 @@ span{
 
 .contact form input:focus,
 .contact form textarea:focus {
-  border-color: #0ef;
-  box-shadow: 0 0 10px rgba(0, 238, 255, 0.3);
+    border-color: var(--main-color);
+    box-shadow: 0 0 10px var(--main-color);
 }
 
 .contact form input:invalid,
@@ -635,8 +644,8 @@ span{
 }
 
 .contact form button[type="submit"]:hover {
-  background: #0ef;
-  color: #1f242d;
+    background: var(--main-color);
+    color: var(--btn-text-color);
   transform: scale(1.05);
 }
 
@@ -676,14 +685,14 @@ span{
 .footer .social a:hover{
     transform: scale(1.2)translateY(-10px);
     background-color: var(--main-color);
-    color: #131313;
+    color: var(--btn-text-color);
     box-shadow: 0 0 25px var(--main-color);
 }
 .footer .copyright{
     margin-top: 20px;
     text-align: center;
     font-size: 16px;
-    color: #fff;
+    color: var(--text-color);
 }
 
 /* *************Responsive Design Section***************** */
@@ -742,7 +751,7 @@ span{
         right: 0;
         width: 50%;
         padding: 1rem 3%;
-        background: rgba(0, 0, 0, 0.8);
+        background: var(--second-bg-color);
         backdrop-filter: blur(20px);
         border-bottom-left-radius: 2rem;
         border-left: 2px solid var(--main-color);
@@ -763,7 +772,7 @@ span{
         display: block;
         font-size: 2rem;
         margin: 3rem 0;
-        color: #fff;
+        color: var(--text-color);
     }
     .home{
         flex-direction: column-reverse;
@@ -781,7 +790,8 @@ span{
         margin: 0 auto;
     }
     .home-img img{
-        width: 56vw;
+        width: min(56vw, 300px);
+        height: min(56vw, 300px);
     }
     .services h2{
         margin-bottom: 3rem;
@@ -861,11 +871,11 @@ span{
 }
 
 [data-theme="light"] .theme-toggle .bx-sun {
-    display: block;
+    display: none;
 }
 
 [data-theme="light"] .theme-toggle .bx-moon {
-    display: none;
+    display: block;
 }
 
 /* Scroll to Top Button */
@@ -1032,6 +1042,23 @@ span{
     margin-bottom: 1.5rem;
 }
 
+.project-points {
+    margin: 0 0 1.5rem 1.8rem;
+    padding: 0;
+}
+
+.project-points li {
+    font-size: 1.35rem;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+.tech-stack {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
 .project-links {
     display: flex;
     gap: 1rem;
@@ -1047,6 +1074,18 @@ span{
     text-align: center;
     margin-bottom: 2rem;
     min-height: 2em;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .typing-text {

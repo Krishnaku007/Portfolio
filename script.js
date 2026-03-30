@@ -2,9 +2,11 @@ let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 
 
-menuIcon.onclick = () => {
-    menuIcon.classList.toggle('bx-x');
-    navbar.classList.toggle('active');
+if (menuIcon && navbar) {
+    menuIcon.onclick = () => {
+        menuIcon.classList.toggle('bx-x');
+        navbar.classList.toggle('active');
+    };
 }
 
 let sections = document.querySelectorAll('section');
@@ -21,7 +23,10 @@ window.onscroll = () => {
         if (top >= offset && top < offset + height) {
             navLinks.forEach(links => {
                 links.classList.remove('active');
-                document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
+                const activeLink = document.querySelector('header nav a[href*=' + id + ']');
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
             });
         };
     });
@@ -29,14 +34,17 @@ window.onscroll = () => {
     let header = document.querySelector('header');
     header.classList.toggle('sticky', window.scrollY > 100);
 
-    menuIcon.classList.remove('bx-x');
-    navbar.classList.remove('active');
+    if (menuIcon && navbar) {
+        menuIcon.classList.remove('bx-x');
+        navbar.classList.remove('active');
+    }
 };
 
 // script.js
 
 document.addEventListener("DOMContentLoaded", function() {
     const smokeContainer = document.getElementById('smoke-container');
+    if (!smokeContainer) return;
     
     function createSmoke() {
         const smoke = document.createElement('div');
@@ -61,54 +69,34 @@ document.addEventListener("DOMContentLoaded", function() {
 // Contact Form Handling
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
+const nextUrlInput = document.getElementById('next-url');
+
+if (nextUrlInput) {
+    const redirectBase = window.location.href.split('#')[0];
+    nextUrlInput.value = `${redirectBase}#contact`;
+}
 
 if (contactForm) {
-  contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
+    contactForm.addEventListener('submit', () => {
     const submitButton = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
+        if (submitButton) {
+            // Prevent duplicate submits while the browser sends the POST request.
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+        }
     
-    // Show loading state
-    submitButton.disabled = true;
-    submitButton.textContent = 'Sending...';
-    
-    // Show status message
-    formStatus.textContent = 'Sending your message...';
-    formStatus.className = 'form-status';
-    formStatus.style.display = 'block';
-    
-    try {
-      const formData = new FormData(contactForm);
-      
-      // For testing purposes, simulate a successful submission
-      // In production, you would use the actual FormSubmit service
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate network delay
-      
-      // Show success message
-      formStatus.textContent = 'Message sent successfully! I will get back to you soon.';
-      formStatus.className = 'form-status success';
-      contactForm.reset();
-      
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        formStatus.style.display = 'none';
-      }, 5000);
-      
-    } catch (error) {
-      // Show error message
-      formStatus.textContent = 'Sorry, there was an error sending your message. Please try again later.';
-      formStatus.className = 'form-status error';
-      
-      // Hide error message after 5 seconds
-      setTimeout(() => {
-        formStatus.style.display = 'none';
-      }, 5000);
-    } finally {
-      // Reset button state
+        if (formStatus) {
+            formStatus.textContent = 'Sending your message...';
+            formStatus.className = 'form-status';
+            formStatus.style.display = 'block';
+        }
+
+        // If submission stays on this page for any reason, restore button state.
+        window.setTimeout(() => {
+            if (!submitButton) return;
       submitButton.disabled = false;
-      submitButton.textContent = originalText;
-    }
+            submitButton.textContent = 'Send Message';
+        }, 8000);
   });
 }
 
@@ -135,11 +123,20 @@ window.addEventListener('DOMContentLoaded', () => {
 const themeToggle = document.querySelector('.theme-toggle');
 const body = document.body;
 
-// Check for saved theme preference
+// Use saved theme first, then fall back to system preference.
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-    body.setAttribute('data-theme', savedTheme);
+const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+body.setAttribute('data-theme', initialTheme);
+
+function updateThemeToggleText(theme) {
+    if (!themeToggle) return;
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    themeToggle.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
+    themeToggle.setAttribute('title', `Switch to ${nextTheme} mode`);
 }
+
+updateThemeToggleText(initialTheme);
 
 if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -147,6 +144,7 @@ if (themeToggle) {
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
         body.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
+        updateThemeToggleText(newTheme);
     });
 }
 

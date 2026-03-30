@@ -1,0 +1,17 @@
+{
+  "name": "Krishna Kumar Portfolio",
+  "short_name": "KK Portfolio",
+  "description": "Portfolio featuring projects, skills, and contact information.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#0096FF",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

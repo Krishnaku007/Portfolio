@@ -337,7 +337,7 @@ class SmokeEffect {
 
 // Initialize smoke effect when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    if (THREE.WEBGL.isWebGLAvailable()) {
+    if (typeof THREE !== 'undefined' && THREE.WEBGL && THREE.WEBGL.isWebGLAvailable()) {
         // Register ScrollTrigger plugin
         gsap.registerPlugin(ScrollTrigger);
         new SmokeEffect();
